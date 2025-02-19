@@ -5,6 +5,14 @@ const app = express();
 app.use(cors()); // Izinkan request dari ESP32
 app.use(express.json()); // Parsing JSON body
 
+// Middleware untuk menghindari redirect otomatis ke versi dengan atau tanpa "/"
+app.use((req, res, next) => {
+    if (req.originalUrl.endsWith("/") && req.originalUrl !== "/") {
+        return res.redirect(301, req.originalUrl.slice(0, -1));
+    }
+    next();
+});
+
 let ledStatus = "OFF"; // Status awal LED
 
 // Endpoint untuk mendapatkan status LED
@@ -22,14 +30,6 @@ app.post("/led-status", (req, res) => {
         res.status(400).json({ error: "Status harus 'ON' atau 'OFF'" });
     }
 });
-
-app.use((req, res, next) => {
-    if (req.originalUrl.endsWith("/") && req.originalUrl !== "/") {
-        return res.redirect(301, req.originalUrl.slice(0, -1));
-    }
-    next();
-});
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));
