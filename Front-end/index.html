@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol LED</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        button { padding: 10px; font-size: 20px; margin: 10px; }
+        #status { font-size: 24px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Kontrol LED dari Jarak Jauh</h1>
+    <button onclick="controlLED('ON')">Nyalakan LED</button>
+    <button onclick="controlLED('OFF')">Matikan LED</button>
+    <p id="status">Status LED: Tidak diketahui</p>
+
+    <script>
+        const serverUrl = "https://server-kamu.com/api/led";
+
+        function controlLED(state) {
+            fetch(serverUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: state })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("status").innerText = "Status LED: " + data.status;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function checkLEDStatus() {
+            fetch(serverUrl)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("status").innerText = "Status LED: " + data.status;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        setInterval(checkLEDStatus, 3000); // Perbarui status LED setiap 3 detik
+    </script>
+</body>
+</html>
