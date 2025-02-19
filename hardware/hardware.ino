@@ -1,13 +1,14 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
+#include <WiFiClientSecure.h>  // Gunakan WiFiClientSecure untuk HTTPS
 
 const char* ssid = "Noeriel_plus";
 const char* password = "19810730";
-const char* serverUrl = "http://backend-iot-project-2.onrender.com/led-status/"; // Ganti dengan URL backend
+const char* serverUrl = "https://backend-iot-project-2.onrender.com/led-status"; // HARUS HTTPS
 
-const int ledPin = 2; // LED terhubung ke pin D4 (GPIO2)
+const int ledPin = 2; // LED di GPIO2
 
-WiFiClient client; // Tambahkan objek WiFiClient
+WiFiClientSecure client; // Gunakan WiFiClientSecure untuk HTTPS
 
 void setup() {
     Serial.begin(115200);
@@ -20,24 +21,26 @@ void setup() {
         Serial.print(".");
     }
     Serial.println("\nTerhubung ke WiFi!");
+
+    client.setInsecure(); // Abaikan verifikasi SSL (penting untuk ESP8266)
 }
 
 void loop() {
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
         http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
-        http.begin(client, serverUrl); // Perbaiki dengan menggunakan WiFiClient sebagai parameter pertama
+        http.begin(client, serverUrl); // Gunakan WiFiClientSecure
+
         int httpResponseCode = http.GET();
 
         if (httpResponseCode > 0) {
             String response = http.getString();
             Serial.println("Respon dari Server: " + response);
 
-            // Periksa status LED
-            if (response.indexOf("ON") != -1) {
-                digitalWrite(ledPin, LOW);
+            if (response.indexOf("\"status\":\"ON\"") != -1) {
+                digitalWrite(ledPin, LOW); // LED menyala
             } else {
-                digitalWrite(ledPin, HIGH);
+                digitalWrite(ledPin, HIGH); // LED mati
             }
         } else {
             Serial.print("Gagal terhubung ke server. Kode Error: ");
