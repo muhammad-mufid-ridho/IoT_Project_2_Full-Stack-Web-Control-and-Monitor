@@ -3,7 +3,7 @@
 
 const char* ssid = "Noeriel_plus";
 const char* password = "19810730";
-const char* serverUrl = "http://backend-iot-project-2.onrender.com/led-status"; // Ganti dengan URL backend
+const char* serverUrl = "http://backend-iot-project-2.onrender.com/led-status/"; // Ganti dengan URL backend
 
 const int ledPin = 2; // LED terhubung ke pin D4 (GPIO2)
 
@@ -25,6 +25,7 @@ void setup() {
 void loop() {
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
+        http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
         http.begin(client, serverUrl); // Perbaiki dengan menggunakan WiFiClient sebagai parameter pertama
         int httpResponseCode = http.GET();
 
@@ -34,9 +35,9 @@ void loop() {
 
             // Periksa status LED
             if (response.indexOf("ON") != -1) {
-                digitalWrite(ledPin, HIGH);
-            } else {
                 digitalWrite(ledPin, LOW);
+            } else {
+                digitalWrite(ledPin, HIGH);
             }
         } else {
             Serial.print("Gagal terhubung ke server. Kode Error: ");

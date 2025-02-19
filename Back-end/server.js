@@ -23,5 +23,13 @@ app.post("/led-status", (req, res) => {
     }
 });
 
+app.use((req, res, next) => {
+    if (req.originalUrl.endsWith("/") && req.originalUrl !== "/") {
+        return res.redirect(301, req.originalUrl.slice(0, -1));
+    }
+    next();
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));
