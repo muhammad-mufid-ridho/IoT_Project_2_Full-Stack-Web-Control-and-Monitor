@@ -1,7 +1,7 @@
-# 🔌 Wemos D1 R1 LED Control via Web (Render & Wokwi) 💡
+# 🔌 Wemos D1 R1 LED Control Fullstack Web 💡
 
 ## 📝 Deskripsi Proyek
-Proyek ini memungkinkan pengontrolan LED pada Wemos D1 R1 secara jarak jauh melalui web tanpa harus berada dalam jaringan WiFi yang sama. Backend di-deploy menggunakan Render, dan Wemos D1 R1 dikonfigurasi dengan Wokwi untuk simulasi.
+Proyek ini memungkinkan pengontrolan LED pada Wemos D1 R1 secara jarak jauh melalui web tanpa harus berada dalam jaringan WiFi yang sama. Backend di-deploy menggunakan Render, dan Wemos D1 R1.
 
 ## 🔄 Alur Kerja (Fullstack)
 ### 1. **Frontend (Web Interface) 🌐**
@@ -20,7 +20,7 @@ Proyek ini memungkinkan pengontrolan LED pada Wemos D1 R1 secara jarak jauh mela
    - Membaca status LED dari server dan menyesuaikan output LED.
 
 ### 4. **Pengujian & Debugging 🛠️**
-   - Menggunakan Wokwi untuk mensimulasikan Wemos D1 R1.
+   - Mensimulasikan Wemos D1 R1.
    - Memastikan server dapat menerima dan merespons request dengan benar.
 
 ## 📌 Langkah-Langkah Implementasi
@@ -32,13 +32,13 @@ Proyek ini memungkinkan pengontrolan LED pada Wemos D1 R1 secara jarak jauh mela
   - Start Command: `node server.js`
 - Deploy dan catat URL backend.
 
-### 2. Konfigurasi Wemos D1 R1 di Wokwi 🔧
-- Gunakan jaringan WiFi `Wokwi-GUEST`.
+### 2. Konfigurasi Wemos D1 R1 🔧
+- Gunakan jaringan WiFi/Internet.
 - Pastikan Wemos D1 R1 dapat mengambil status LED dari server.
 
 ### 3. Uji Coba ✅
 - Cek backend melalui browser (`https://backend-url.onrender.com`).
-- Jalankan simulasi di Wokwi dan pastikan LED merespons perubahan status.
+- Jalankan WeMos dan pastikan LED merespons perubahan status.
 - Gunakan console log dan Serial Monitor untuk debugging.
 
 ## ℹ️ Catatan Tambahan
@@ -47,5 +47,4 @@ Proyek ini memungkinkan pengontrolan LED pada Wemos D1 R1 secara jarak jauh mela
 
 ## 📚 Sumber Daya Tambahan
 - [Render Deployment Docs](https://render.com/docs)
-- [Wokwi Simulator](https://wokwi.com/)
 
