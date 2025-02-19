@@ -17,7 +17,7 @@
     <p id="status">Status LED: Tidak diketahui</p>
 
     <script>
-        const serverUrl = "https://server-kamu.com/api/led";
+        const serverUrl = "https://backend-iot-project-2.onrender.com/led-status";
 
         function controlLED(state) {
             fetch(serverUrl, {
@@ -42,7 +42,7 @@
             .catch(error => console.error("Error:", error));
         }
 
-        setInterval(checkLEDStatus, 3000); // Perbarui status LED setiap 3 detik
+        setInterval(checkLEDStatus, 3000); // Perbarui status LED setiap 1 detik
     </script>
 </body>
 </html>
