@@ -26,7 +26,7 @@ function checkLEDStatus() {
 function updateLEDStatus(status) {
   const statusElement = document.getElementById("status");
   if(status == 'ON') {
-    statusElement.innerHTML = '<i class="bi bi-lightbulb-fill lamp" style="color: yellow;"></i>';
+    statusElement.innerHTML = '<i class="bi bi-lightbulb-fill lamp" style="color: yellow; text-shadow: 0 0 100px white;"></i>';
   }
   else if(status == 'OFF') {
     statusElement.innerHTML = '<i class="bi bi-lightbulb-fill lamp" style="color: white;"></i>';
