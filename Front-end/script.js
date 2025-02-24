@@ -1,24 +1,36 @@
+const serverUrl = "https://backend-iot-project-2.onrender.com/led-status";
 
-    // Buat koneksi WebSocket ke server
-    const socket = new WebSocket('ws://localhost:8080');
+function controlLED(state) {
+    fetch(serverUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: state })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        updateLEDStatus(data.status);
+    })
+    .catch(error => console.error("Error:", error));
+}
 
-    // Ketika koneksi dibuka
-    socket.onopen = () => {
-      console.log('Connected to WebSocket server');
-    };
+function checkLEDStatus() {
+    fetch(serverUrl)
+    .then(response => response.json())
+    .then(data => {
+        updateLEDStatus(data.status);
+    })
+    .catch(error => console.error("Error:", error));
+}
 
-    // Ketika menerima data dari WebSocket
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const temperature = data.temperature;
-      const humidity = data.humidity;
+function updateLEDStatus(status) {
+  const statusElement = document.getElementById("status");
+  if(status == 'ON') {
+    statusElement.innerHTML = '<i class="bi bi-lightbulb-fill lamp" style="color: yellow;"></i>';
+  }
+  else if(status == 'OFF') {
+    statusElement.innerHTML = '<i class="bi bi-lightbulb-fill lamp" style="color: white;"></i>';
+  }
+}
 
-      // Update tampilan suhu dan kelembaban
-      document.getElementById('temperature').innerText = 'Temperature: ' + temperature + '°C';
-      document.getElementById('humidity').innerText = 'Humidity: ' + humidity + '%';
-    };
-
-    // Ketika koneksi WebSocket ditutup
-    socket.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
+setInterval(checkLEDStatus, 1000); // Perbarui status LED setiap 1 detik
