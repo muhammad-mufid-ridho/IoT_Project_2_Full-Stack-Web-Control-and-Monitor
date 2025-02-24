@@ -9,7 +9,7 @@ function controlLED(state) {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        updateLEDStatus(data.status);
+        updateLEDStatus(data.status); 
     })
     .catch(error => console.error("Error:", error));
 }
